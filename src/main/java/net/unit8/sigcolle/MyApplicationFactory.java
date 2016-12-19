@@ -15,6 +15,7 @@ import kotowari.middleware.serdes.ToStringBodyWriter;
 import kotowari.routing.Routes;
 import net.unit8.sigcolle.controller.CampaignController;
 import net.unit8.sigcolle.controller.IndexController;
+import net.unit8.sigcolle.controller.RegisterController;
 import net.unit8.sigcolle.controller.SignatureController;
 
 import static enkan.util.BeanBuilder.builder;
@@ -34,6 +35,9 @@ public class MyApplicationFactory implements ApplicationFactory {
             r.get("/campaign/:campaignId").to(CampaignController.class, "index");
             r.post("/campaign/:campaignId").to(CampaignController.class, "sign");
             r.get("/campaign/:campaignId/signatures").to(SignatureController.class, "list");
+            r.get("/register").to(RegisterController.class, "index");
+            r.post("/register").to(RegisterController.class, "register");
+            r.post("/login").to(RegisterController.class, "login");
         }).compile();
 
         app.use(new DefaultCharsetMiddleware());
