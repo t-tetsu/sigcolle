@@ -58,7 +58,6 @@ public class RegisterController {
         }
 
         User user = builder(new User())
-                .set(User::setUserId, new Long(1))
                 .set(User::setLastName, form.getLastName())
                 .set(User::setFirstName, form.getFirstName())
                 .set(User::setEmail, form.getEmail())
@@ -70,7 +69,7 @@ public class RegisterController {
         if (session == null) {
             session = new Session();
         }
-        String name = form.getLastName() + form.getFirstName();
+        String name = form.getLastName() + " " + form.getFirstName();
         session.put("name", name);
 
         CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
@@ -86,12 +85,12 @@ public class RegisterController {
     public HttpResponse login(UserForm form, Session session) throws IOException {
 
         UserDao userDao = domaProvider.getDao(UserDao.class);
-        User user = userDao.selectById(form.getUserIdLong());
+        User user = userDao.selectByEmail(form.getEmail());
 
         if (session == null) {
             session = new Session();
         }
-        String name = user.getLastName() + user.getFirstName();
+        String name = user.getLastName() + " " + user.getFirstName();
         session.put("name", name);
 
         CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
@@ -101,6 +100,19 @@ public class RegisterController {
 
         return builder(redirect("/campaign/1", SEE_OTHER))
                 .set(HttpResponse::setFlash, new Flash("ようこそ" + name + "さん"))
+                .set(HttpResponse::setSession, session)
+                .build();
+    }
+
+    @Transactional
+    public HttpResponse logout(Session session) throws IOException {
+
+        if (session != null) {
+            session.clear();
+        }
+
+        return builder(redirect("/campaign/1", SEE_OTHER))
+                .set(HttpResponse::setFlash, new Flash("ログアウトしました"))
                 .set(HttpResponse::setSession, session)
                 .build();
     }

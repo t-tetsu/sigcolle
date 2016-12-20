@@ -13,9 +13,6 @@ import java.util.List;
  */
 @Dao(config = DomaConfig.class)
 public interface UserDao {
-    @Select(ensureResult = true)
-    User selectById(Long userId);
-
     @Select
     List<User> selectAll();
 
@@ -28,6 +25,6 @@ public interface UserDao {
     @Select
     int countByEmail(String email);
 
-    @Select
-    int selectByEmail(String email);
+    @Select(ensureResult = true)
+    User selectByEmail(String email);
 }

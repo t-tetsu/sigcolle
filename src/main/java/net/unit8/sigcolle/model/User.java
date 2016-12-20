@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Data
 public class User implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     private String firstName;
