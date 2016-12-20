@@ -1,14 +1,13 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+xmlns:th="http://www.thymeleaf.org">
 <head>
     <title></title>
     <link href="http://fonts.googleapis.com/css?family=Exo:900" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet"/>
     <link href="/css/main.css" rel="stylesheet"/>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
-    <script src="/js/jquery.lightbox_me.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.js"></script>
 </head>
 <body>
 <div class="pusher">
@@ -16,7 +15,48 @@
         <div class="ui container">
             <a href="#" class="header item">Saving Engineers</a>
             <a href="/register" class="header item">Register</a>
-            <p><a href="#" id="try-1" class="try sprited">Try it!</a></p>
+            <button class="ui button" id="modal-login">ログイン</button>
+            <div class="ui modal login">
+                <div class="header">
+                    ログイン
+                </div>
+                <div class="actions">
+                    <form class="ui form" method="post" action="/login"
+                          th:action="@{~/login}">
+                        <div class="field">
+                            <input type="text" name="email" placeholder="メールアドレス"/>
+                        </div>
+                        <div class="field">
+                            <input type="password" name="pass" placeholder="パスワード"/>
+                        </div>
+                        <button class="ui fluid red button">ログイン</button>
+                    </form>
+                </div>
+            </div>
+            <button class="ui button" id="modal-register">ユーザ登録</button>
+            <div class="ui modal register">
+                <div class="header">
+                    ユーザ登録
+                </div>
+                <div class="actions">
+                    <form class="ui form" method="post" action="/register"
+                          th:action="@{~/register}">
+                        <div class="field">
+                            <input type="text" name="lastName" placeholder="姓"/>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="firstName" placeholder="名"/>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="email" placeholder="メールアドレス"/>
+                        </div>
+                        <div class="field">
+                            <input type="password" name="pass" placeholder="パスワード"/>
+                        </div>
+                        <button class="ui fluid red button">登録</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <div class="full height image">
@@ -29,6 +69,8 @@
                 <div class="ui positive message" th:if="${message != null}">
                     <div class="header" th:text="${message}">Thank you</div>
                 </div>
+
+
                 <div class="ui grid">
                     <div class="ten wide column">
                         <div class="statement" th:utext="${campaign.statement}">
@@ -43,7 +85,7 @@
                         </div>
                         <p><span th:text="${campaign.goal}">1000</span>人まで残り<span th:text="${campaign.goal - signatureCount}">1</span>人の賛同者が必要です！</p>
                         <form class="ui form" method="post" action="/campaign/1"
-                              th:action="@{~/campaign/{id}(id=${campaign.campaignId})}">
+                        th:action="@{~/campaign/{id}(id=${campaign.campaignId})}">
                             <div class="field" th:classappend="${signature.hasErrors('name')}?'error'">
                                 <input type="text" name="name" placeholder="氏名"/>
                             </div>
@@ -59,18 +101,13 @@
         </div>
     </div>
 </div>
-
 <script>
-$('#try-1').click(function(e) {
-    $('#sign_up').lightbox_me({
-        centered: true,
-        onLoad: function() {
-            $('#sign_up').find('input:first').focus()
-            }
-        });
-    e.preventDefault();
+$('button#modal-login').on('click', function() {
+$('.ui.modal.login').modal('show');
+});
+$('button#modal-register').on('click', function() {
+$('.ui.modal.register').modal('show');
 });
 </script>
-
 </body>
 </html>

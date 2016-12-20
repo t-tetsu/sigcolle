@@ -24,4 +24,10 @@ public interface UserDao {
 
     @Select
     int countByUserId(Long userId);
+
+    @Select
+    int countByEmail(String email);
+
+    @Select
+    int selectByEmail(String email);
 }

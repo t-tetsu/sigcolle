@@ -51,13 +51,14 @@ public class RegisterController {
                     .build();
         }
 
+        // メールアドレスの重複チェック
         UserDao userDao = domaProvider.getDao(UserDao.class);
-        if (userDao.countByUserId(form.getUserIdLong()) != 0){
+        if (userDao.countByEmail(form.getEmail()) != 0){
             return templateEngine.render("register" );
         }
 
         User user = builder(new User())
-                .set(User::setUserId, form.getUserIdLong())
+                .set(User::setUserId, new Long(1))
                 .set(User::setLastName, form.getLastName())
                 .set(User::setFirstName, form.getFirstName())
                 .set(User::setEmail, form.getEmail())
