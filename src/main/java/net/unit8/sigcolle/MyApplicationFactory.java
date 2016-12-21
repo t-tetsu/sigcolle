@@ -13,10 +13,7 @@ import enkan.system.inject.ComponentInjector;
 import kotowari.middleware.*;
 import kotowari.middleware.serdes.ToStringBodyWriter;
 import kotowari.routing.Routes;
-import net.unit8.sigcolle.controller.CampaignController;
-import net.unit8.sigcolle.controller.IndexController;
-import net.unit8.sigcolle.controller.RegisterController;
-import net.unit8.sigcolle.controller.SignatureController;
+import net.unit8.sigcolle.controller.*;
 
 import static enkan.util.BeanBuilder.builder;
 import static enkan.util.Predicates.NONE;
@@ -35,9 +32,11 @@ public class MyApplicationFactory implements ApplicationFactory {
             r.get("/campaign/:campaignId").to(CampaignController.class, "index");
             r.post("/campaign/:campaignId").to(CampaignController.class, "sign");
             r.get("/campaign/:campaignId/signatures").to(SignatureController.class, "list");
+            r.get("/register").to(RegisterController.class, "index");
             r.post("/register").to(RegisterController.class, "register");
-            r.post("/login").to(RegisterController.class, "login");
-            r.get("/logout").to(RegisterController.class, "logout");
+            r.get("/login").to(LoginController.class, "index");
+            r.post("/login").to(LoginController.class, "login");
+            r.get("/logout").to(LoginController.class, "logout");
         }).compile();
 
         app.use(new DefaultCharsetMiddleware());

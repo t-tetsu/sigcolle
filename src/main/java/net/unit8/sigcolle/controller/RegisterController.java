@@ -8,18 +8,21 @@ import kotowari.component.TemplateEngine;
 import net.unit8.sigcolle.dao.CampaignDao;
 import net.unit8.sigcolle.dao.UserDao;
 import net.unit8.sigcolle.form.CampaignForm;
+import net.unit8.sigcolle.form.LoginForm;
 import net.unit8.sigcolle.form.UserForm;
 import net.unit8.sigcolle.model.Campaign;
 import net.unit8.sigcolle.model.User;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.io.IOException;
 
 import static enkan.util.BeanBuilder.builder;
 import static enkan.util.HttpResponseUtils.RedirectStatusCode.SEE_OTHER;
 import static enkan.util.HttpResponseUtils.redirect;
 import static enkan.util.ThreadingUtils.some;
+import static javax.swing.text.StyleConstants.ModelAttribute;
 
 /**
  * Created by tie303856 on 2016/12/14.
@@ -38,7 +41,7 @@ public class RegisterController {
         Campaign campaign = campaignDao.selectById(new Long(1));
 
         return templateEngine.render("register",
-                "campaign", campaign
+                "user", new UserForm()
         );
     }
 
@@ -46,15 +49,16 @@ public class RegisterController {
     public HttpResponse register(UserForm form, Session session) throws IOException {
 
         if (form.hasErrors()) {
-            return builder(HttpResponse.of("Invalid"))
-                    .set(HttpResponse::setStatus, 400)
-                    .build();
+            return templateEngine.render("register",
+                    "user", form
+            );
         }
 
-        // メールアドレスの重複チェック
         UserDao userDao = domaProvider.getDao(UserDao.class);
         if (userDao.countByEmail(form.getEmail()) != 0){
-            return templateEngine.render("register" );
+            return templateEngine.render("register",
+                    "user", form
+            );
         }
 
         User user = builder(new User())
@@ -76,43 +80,6 @@ public class RegisterController {
         Campaign campaign = campaignDao.selectById(new Long(1));
 
         return builder(redirect("/campaign/1", SEE_OTHER))
-                .set(HttpResponse::setFlash, new Flash("ようこそ" + name + "さん"))
-                .set(HttpResponse::setSession, session)
-                .build();
-    }
-
-    @Transactional
-    public HttpResponse login(UserForm form, Session session) throws IOException {
-
-        UserDao userDao = domaProvider.getDao(UserDao.class);
-        User user = userDao.selectByEmail(form.getEmail());
-
-        if (session == null) {
-            session = new Session();
-        }
-        String name = user.getLastName() + " " + user.getFirstName();
-        session.put("name", name);
-
-        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
-        Campaign campaign = campaignDao.selectById(new Long(1));
-
-
-
-        return builder(redirect("/campaign/1", SEE_OTHER))
-                .set(HttpResponse::setFlash, new Flash("ようこそ" + name + "さん"))
-                .set(HttpResponse::setSession, session)
-                .build();
-    }
-
-    @Transactional
-    public HttpResponse logout(Session session) throws IOException {
-
-        if (session != null) {
-            session.clear();
-        }
-
-        return builder(redirect("/campaign/1", SEE_OTHER))
-                .set(HttpResponse::setFlash, new Flash("ログアウトしました"))
                 .set(HttpResponse::setSession, session)
                 .build();
     }

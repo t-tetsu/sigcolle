@@ -21,26 +21,16 @@
             <div class="ui information container">
                 <div class="ui grid">
                     <div class="six wide column">
-                        <h1 class="ui center aligned header">新規登録</h1>
-                        <form class="ui form" method="post" action="/register"
-                              th:action="@{~/register}">
-                            <div class="field">
-                                <input type="text" name="lastName" placeholder="姓"/>
-                                <span th:if="${user.hasErrors('lastName')}">姓を入力してください</span>
-                            </div>
-                            <div class="field">
-                                <input type="text" name="firstName" placeholder="名"/>
-                                <span th:if="${user.hasErrors('firstName')}">名を入力してください</span>
-                            </div>
+                        <h1 class="ui center aligned header">ログイン</h1>
+                        <form class="ui form" method="post" action="/login"
+                              th:action="@{~/login}">
                             <div class="field">
                                 <input type="text" name="email" placeholder="メールアドレス"/>
-                                <span th:if="${user.hasErrors('email')}">メールアドレスを入力してください</span>
                             </div>
                             <div class="field">
                                 <input type="password" name="pass" placeholder="パスワード"/>
-                                <span th:if="${user.hasErrors('pass')}">パスワードを入力してください</span>
                             </div>
-                            <button class="ui fluid red button">登録</button>
+                            <button class="ui fluid red button">ログイン</button>
                         </form>
                     </div>
                 </div>

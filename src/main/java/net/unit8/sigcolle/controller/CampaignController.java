@@ -4,6 +4,7 @@ import enkan.collection.Parameters;
 import enkan.component.doma2.DomaProvider;
 import enkan.data.Flash;
 import enkan.data.HttpResponse;
+import enkan.data.Session;
 import kotowari.component.TemplateEngine;
 import net.unit8.sigcolle.dao.CampaignDao;
 import net.unit8.sigcolle.dao.SignatureDao;
@@ -52,6 +53,7 @@ public class CampaignController {
                     .set(HttpResponse::setStatus, 400)
                     .build();
         }
+
         return showCampaign(form.getCampaignIdLong(),
                 new SignatureForm(),
                 (String) some(flash, Flash::getValue).orElse(null));
