@@ -19,26 +19,24 @@
             <div class="menu bar">
             </div>
             <div class="ui information container">
-                <div class="ui grid">
-                    <div class="six wide column">
+                <div class="ui three column grid">
+                    <div class="column"></div>
+                    <div class="column">
                         <h1 class="ui center aligned header">新規登録</h1>
                         <form class="ui form" method="post" action="/register"
                               th:action="@{~/register}">
                             <div class="field">
-                                <input type="text" name="lastName" placeholder="姓"/>
-                                <span th:if="${user.hasErrors('lastName')}">姓を入力してください</span>
+                                <input required type="text" maxlength='20' name="lastName" placeholder="姓"/>
                             </div>
                             <div class="field">
-                                <input type="text" name="firstName" placeholder="名"/>
-                                <span th:if="${user.hasErrors('firstName')}">名を入力してください</span>
+                                <input required type="text" maxlength='20' name="firstName" placeholder="名"/>
                             </div>
                             <div class="field">
-                                <input type="text" name="email" placeholder="メールアドレス"/>
-                                <span th:if="${user.hasErrors('email')}">メールアドレスを入力してください</span>
+                                <input required type="email" maxlength='50' name="email" placeholder="メールアドレス"/>
+                                <span th:if="${errorMessage} != null" th:text="${errorMessage}"></span>
                             </div>
                             <div class="field">
-                                <input type="password" name="pass" placeholder="パスワード"/>
-                                <span th:if="${user.hasErrors('pass')}">パスワードを入力してください</span>
+                                <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
                             </div>
                             <button class="ui fluid red button">登録</button>
                         </form>

@@ -34,6 +34,7 @@ public class RegisterController {
     @Inject
     DomaProvider domaProvider;
 
+    // 登録画面表示
     @Transactional
     public HttpResponse index(CampaignForm form) throws IOException {
 
@@ -45,6 +46,7 @@ public class RegisterController {
         );
     }
 
+    // 新規登録処理
     @Transactional
     public HttpResponse register(UserForm form, Session session) throws IOException {
 
@@ -57,7 +59,8 @@ public class RegisterController {
         UserDao userDao = domaProvider.getDao(UserDao.class);
         if (userDao.countByEmail(form.getEmail()) != 0){
             return templateEngine.render("register",
-                    "user", form
+                    "user", form,
+                    "errorMessage", "このメールアドレスは既に登録されています。"
             );
         }
 

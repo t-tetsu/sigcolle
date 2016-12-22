@@ -19,16 +19,17 @@
             <div class="menu bar">
             </div>
             <div class="ui information container">
-                <div class="ui grid">
-                    <div class="six wide column">
+                <div class="ui three column grid">
+                    <div class="column"></div>
+                    <div class="column">
                         <h1 class="ui center aligned header">ログイン</h1>
                         <form class="ui form" method="post" action="/login"
                               th:action="@{~/login}">
                             <div class="field">
-                                <input type="text" name="email" placeholder="メールアドレス"/>
+                                <input required type="email" maxlength='50' name="email" placeholder="メールアドレス"/>
                             </div>
                             <div class="field">
-                                <input type="password" name="pass" placeholder="パスワード"/>
+                                <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
                             </div>
                             <button class="ui fluid red button">ログイン</button>
                         </form>

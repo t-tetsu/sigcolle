@@ -31,6 +31,7 @@ public class LoginController {
     @Inject
     DomaProvider domaProvider;
 
+    // ログイン画面表示
     @Transactional
     public HttpResponse index(CampaignForm form) throws IOException {
 
@@ -42,6 +43,7 @@ public class LoginController {
         );
     }
 
+    // ログイン処理
     @Transactional
     public HttpResponse login(LoginForm form, Session session) throws IOException {
 
@@ -67,6 +69,7 @@ public class LoginController {
 
     }
 
+    // ログアウト処理
     @Transactional
     public HttpResponse logout(Session session) throws IOException {
 
