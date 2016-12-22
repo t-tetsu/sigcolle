@@ -33,7 +33,7 @@
                             </div>
                             <div class="field">
                                 <input required type="email" maxlength='50' name="email" placeholder="メールアドレス"/>
-                                <span class="header item" th:if="${errorMessage} != null" th:text="${errorMessage}"></span>
+                                <span style="color:red" th:if="${errorMessage} != null" th:text="${errorMessage}"></span>
                             </div>
                             <div class="field">
                                 <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>

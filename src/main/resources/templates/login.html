@@ -23,7 +23,7 @@
                     <div class="column"></div>
                     <div class="column">
                         <h1 class="ui center aligned header">ログイン</h1>
-                        <span class="header item" th:if="${errorMessage} != null" th:text="${errorMessage}"></span>
+                        <span style="color:red" th:if="${errorMessage} != null" th:text="${errorMessage}"></span>
                         <form class="ui form" method="post" action="/login"
                               th:action="@{~/login}">
                             <div class="field">
