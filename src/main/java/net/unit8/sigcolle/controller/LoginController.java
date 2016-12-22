@@ -12,6 +12,7 @@ import net.unit8.sigcolle.form.LoginForm;
 import net.unit8.sigcolle.form.UserForm;
 import net.unit8.sigcolle.model.Campaign;
 import net.unit8.sigcolle.model.User;
+import org.seasar.doma.jdbc.NoResultException;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -31,6 +32,8 @@ public class LoginController {
     @Inject
     DomaProvider domaProvider;
 
+    public static final String LOGIN_ERR_MSG = "メールアドレスまたはパスワードが一致しません";
+
     // ログイン画面表示
     @Transactional
     public HttpResponse index(CampaignForm form) throws IOException {
@@ -48,11 +51,19 @@ public class LoginController {
     public HttpResponse login(LoginForm form, Session session) throws IOException {
 
         UserDao userDao = domaProvider.getDao(UserDao.class);
-        User user = userDao.selectByEmail(form.getEmail());
-
+        User user;
+        try {
+            user = userDao.selectByEmail(form.getEmail());
+        } catch (NoResultException e) {
+            return templateEngine.render("login",
+                    "errorMessage", LOGIN_ERR_MSG
+            );
+        }
         // パスワードチェック
-        if (!user.getPass().equals(form.getPass())) {
-            // ToDo:入力フォームに戻してエラーメッセージを出力したい
+        if (!form.getPass().equals(user.getPass())) {
+            return templateEngine.render("login",
+                    "errorMessage", LOGIN_ERR_MSG
+            );
         }
         if (session == null) {
             session = new Session();
