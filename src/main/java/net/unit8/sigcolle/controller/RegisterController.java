@@ -1,5 +1,6 @@
 package net.unit8.sigcolle.controller;
 
+import enkan.collection.Multimap;
 import enkan.component.doma2.DomaProvider;
 import enkan.data.Flash;
 import enkan.data.HttpResponse;
@@ -14,6 +15,7 @@ import net.unit8.sigcolle.model.Campaign;
 import net.unit8.sigcolle.model.User;
 
 import javax.inject.Inject;
+import javax.swing.text.StringContent;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -34,19 +36,18 @@ public class RegisterController {
     @Inject
     DomaProvider domaProvider;
 
+    static final String EMAIL_ALREADY_EXISTS = "このメールアドレスは既に登録されています。";
+
     // 登録画面表示
     @Transactional
     public HttpResponse index(CampaignForm form) throws IOException {
-
-        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
-        Campaign campaign = campaignDao.selectById(new Long(1));
 
         return templateEngine.render("register",
                 "user", new UserForm()
         );
     }
 
-    // 新規登録処理
+    // ユーザ登録処理
     @Transactional
     public HttpResponse register(UserForm form, Session session) throws IOException {
 
@@ -57,10 +58,14 @@ public class RegisterController {
         }
 
         UserDao userDao = domaProvider.getDao(UserDao.class);
+
+        // メールアドレス重複チェック
         if (userDao.countByEmail(form.getEmail()) != 0){
+            Multimap errors = Multimap.empty();
+            errors.add("email", EMAIL_ALREADY_EXISTS);
+            form.setErrors(errors);
             return templateEngine.render("register",
-                    "user", form,
-                    "errorMessage", "このメールアドレスは既に登録されています。"
+                    "user", form
             );
         }
 
@@ -78,9 +83,6 @@ public class RegisterController {
         }
         String name = form.getLastName() + " " + form.getFirstName();
         session.put("name", name);
-
-        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
-        Campaign campaign = campaignDao.selectById(new Long(1));
 
         return builder(redirect("/campaign/1", SEE_OTHER))
                 .set(HttpResponse::setSession, session)

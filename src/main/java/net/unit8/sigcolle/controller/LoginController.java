@@ -1,16 +1,13 @@
 package net.unit8.sigcolle.controller;
 
+import enkan.collection.Multimap;
 import enkan.component.doma2.DomaProvider;
-import enkan.data.Flash;
 import enkan.data.HttpResponse;
 import enkan.data.Session;
 import kotowari.component.TemplateEngine;
-import net.unit8.sigcolle.dao.CampaignDao;
 import net.unit8.sigcolle.dao.UserDao;
 import net.unit8.sigcolle.form.CampaignForm;
 import net.unit8.sigcolle.form.LoginForm;
-import net.unit8.sigcolle.form.UserForm;
-import net.unit8.sigcolle.model.Campaign;
 import net.unit8.sigcolle.model.User;
 import org.seasar.doma.jdbc.NoResultException;
 
@@ -32,17 +29,16 @@ public class LoginController {
     @Inject
     DomaProvider domaProvider;
 
-    public static final String LOGIN_ERR_MSG = "メールアドレスまたはパスワードが一致しません";
+    static final String EMAIL_DOES_NOT_EXIST = "このEメールアドレスは登録されていません。";
+
+    static final String PASSWORD_DOES_NOT_MATCH = "登録されているEメールアドレスとパスワードが一致しません。";
 
     // ログイン画面表示
     @Transactional
     public HttpResponse index(CampaignForm form) throws IOException {
 
-        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
-        Campaign campaign = campaignDao.selectById(new Long(1));
-
         return templateEngine.render("login",
-                "campaign", campaign
+                "login", new LoginForm()
         );
     }
 
@@ -52,17 +48,25 @@ public class LoginController {
 
         UserDao userDao = domaProvider.getDao(UserDao.class);
         User user;
+        Multimap errors = Multimap.empty();
+
+        // メールアドレス存在チェック
         try {
             user = userDao.selectByEmail(form.getEmail());
         } catch (NoResultException e) {
+            errors.add("email", EMAIL_DOES_NOT_EXIST);
+            form.setErrors(errors);
             return templateEngine.render("login",
-                    "errorMessage", LOGIN_ERR_MSG
+                    "login", form
             );
         }
+
         // パスワードチェック
         if (!form.getPass().equals(user.getPass())) {
+            errors.add("pass", PASSWORD_DOES_NOT_MATCH);
+            form.setErrors(errors);
             return templateEngine.render("login",
-                    "errorMessage", LOGIN_ERR_MSG
+                    "login", form
             );
         }
         if (session == null) {
@@ -70,9 +74,6 @@ public class LoginController {
         }
         String name = user.getLastName() + " " + user.getFirstName();
         session.put("name", name);
-
-        CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
-        Campaign campaign = campaignDao.selectById(new Long(1));
 
         return builder(redirect("/campaign/1", SEE_OTHER))
                 .set(HttpResponse::setSession, session)

@@ -10,7 +10,7 @@
 <div class="pusher">
     <div class="ui fixed menu">
         <div class="ui container">
-            <a href="#" class="header item">Saving Engineers</a>
+            <a href="/campaign/1" class="header item">Saving Engineers</a>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
                             </div>
                             <div class="field">
                                 <input required type="email" maxlength='50' name="email" placeholder="メールアドレス"/>
-                                <span style="color:red" th:if="${errorMessage} != null" th:text="${errorMessage}"></span>
+                                <span style="color:red" th:if="${user.hasErrors('email')}" th:text="${user.getErrors('email')}"></span>
                             </div>
                             <div class="field">
                                 <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
