@@ -6,8 +6,6 @@ xmlns:th="http://www.thymeleaf.org">
     <link href="http://fonts.googleapis.com/css?family=Exo:900" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet"/>
     <link href="/css/main.css" rel="stylesheet"/>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.js"></script>
 </head>
 <body>
 <div class="pusher">
@@ -16,7 +14,7 @@ xmlns:th="http://www.thymeleaf.org">
             <div class="column">
                 <div class="ui container two column grid">
                     <div class="column">
-                        <a href="/campaign/1" class="header item">Saving Engineers</a>
+                        <a href="/" class="header item">Saving Engineers</a>
                     </div>
                 </div>
             </div>
@@ -68,12 +66,11 @@ xmlns:th="http://www.thymeleaf.org">
                         <form class="ui form" method="post" action="/campaign/1"
                         th:action="@{~/campaign/{id}(id=${campaign.campaignId})}">
                             <div class="field" th:classappend="${signature.hasErrors('name')}?'error'">
-                                <input th:if="(${session} == null) or (${session.name} == null)" type="text" name="name" placeholder="氏名"/>
-                                <input th:unless="((${session} == null) or (${session.name} == null))" type="text" name="name" placeholder="氏名" th:value="${session.name}"/>
+                                <input type="text" name="name" placeholder="氏名" th:value="!${(session == null) or (session.name == null)}?${session.name}"/>
                             </div>
                             <div class="field" th:classappend="${signature.hasErrors('signatureComment')}?'error'">
                                 <label>コメント(任意)</label>
-                                <textarea name="signatureComment" placeholder="[サイトURL],[アクセス制限を解除すべき理由]"></textarea>
+                                <textarea name="signatureComment" placeholder="コメント（任意）"></textarea>
                             </div>
                             <button class="ui fluid red button">賛同する</button>
                         </form>

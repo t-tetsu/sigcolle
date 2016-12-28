@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Signature Collection</title>
+    <link href="http://fonts.googleapis.com/css?family=Exo:900" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet"/>
     <link href="/css/main.css" rel="stylesheet"/>
 </head>
@@ -10,7 +11,7 @@
 <div class="pusher">
     <div class="ui fixed menu">
         <div class="ui container">
-            <a href="/campaign/1" class="header item">Saving Engineers</a>
+            <a href="/" class="header item">Saving Engineers</a>
         </div>
     </div>
 
@@ -25,11 +26,11 @@
                         <h1 class="ui center aligned header">ログイン</h1>
                         <form class="ui form" method="post" action="/login"
                               th:action="@{~/login}">
-                            <div class="field">
-                                <input required type="email" maxlength='50' name="email" placeholder="メールアドレス"/>
+                            <div class="field" th:classappend="${login.hasErrors('email')}?'error'">
+                                <input required type="email" maxlength='50' name="email" placeholder="メールアドレス" th:value="(${login.email}!=null)?${login.email}"/>
                                 <span style="color:red" th:if="${login.hasErrors('email')}" th:text="${login.getErrors('email')}"></span>
                             </div>
-                            <div class="field">
+                            <div class="field" th:classappend="${login.hasErrors('pass')}?'error'">
                                 <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
                                 <span style="color:red" th:if="${login.hasErrors('pass')}" th:text="${login.getErrors('pass')}"></span>
                             </div>

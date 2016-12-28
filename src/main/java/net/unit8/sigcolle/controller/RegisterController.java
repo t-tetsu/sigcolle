@@ -75,7 +75,6 @@ public class RegisterController {
                 .set(User::setEmail, form.getEmail())
                 .set(User::setPass, form.getPass())
                 .build();
-
         userDao.insert(user);
 
         if (session == null) {
@@ -84,7 +83,10 @@ public class RegisterController {
         String name = form.getLastName() + " " + form.getFirstName();
         session.put("name", name);
 
-        return builder(redirect("/campaign/1", SEE_OTHER))
+        User loginUser = userDao.selectByEmail(form.getEmail());
+        session.put("userId", loginUser.getUserId());
+
+        return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
     }

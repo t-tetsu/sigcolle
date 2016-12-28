@@ -74,8 +74,9 @@ public class LoginController {
         }
         String name = user.getLastName() + " " + user.getFirstName();
         session.put("name", name);
+        session.put("userId", user.getUserId());
 
-        return builder(redirect("/campaign/1", SEE_OTHER))
+        return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
 
@@ -89,7 +90,7 @@ public class LoginController {
             session.clear();
         }
 
-        return builder(redirect("/campaign/1", SEE_OTHER))
+        return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
     }

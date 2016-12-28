@@ -1,15 +1,41 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Signature Collection</title>
+    <link href="http://fonts.googleapis.com/css?family=Exo:900" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.6/semantic.min.css" rel="stylesheet"/>
     <link href="/css/main.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="pusher">
     <div class="ui fixed menu">
-        <div class="ui container">
-            <a href="#" class="header item">Saving Engineers</a>
+        <div class="ui four column grid">
+            <div class="column">
+                <div class="ui container two column grid">
+                    <div class="column">
+                        <a href="/" class="header item">Saving Engineers</a>
+                    </div>
+                </div>
+            </div>
+            <div class="right floated column">
+                <div class="ui container two column grid" th:if="(${session} == null) or (${session.name} == null)">
+                    <div class="column">
+                        <a href="/login" class="header item">ログイン</a>
+                    </div>
+                    <div class="column">
+                        <a href="/register" class="header item">ユーザ登録</a>
+                    </div>
+                </div>
+                <div class="ui container two column grid" th:unless="((${session} == null) or (${session.name} == null)) ">
+                    <div class="column">
+                        <p class="header item"><span th:text="${session.name}">name</span>　さん</p>
+                    </div>
+                    <div class="column">
+                        <a href="/logout" class="header item">ログアウト</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -17,9 +43,13 @@
         <div class="ui main container">
             <div class="menu bar">
             </div>
-            <div class="ui information container">
-                <h1 class="ui center aligned header">Saving engineers</h1>
+            <div class="ui information container center aligned ">
+                <h1 class="ui header">Saving engineers</h1>
                 <p>エンジニアを救うため、みなさまにご協力よろしくお願いします。</p>
+            </div>
+            <h2>キャンペーン一覧</h2>
+            <div th:each="campaign : ${campaigns}">
+                <a th:href="'/campaign/'+${campaign.id}" th:text="${campaign.title}">title</a>
             </div>
         </div>
     </div>
