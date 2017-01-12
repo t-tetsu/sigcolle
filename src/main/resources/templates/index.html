@@ -44,12 +44,13 @@
             <div class="menu bar">
             </div>
             <div class="ui information container center aligned ">
-                <h1 class="ui header">Saving engineers</h1>
+                <h1 style="font-size:40px" class="ui header">SIG COLLE</h1>
                 <p>エンジニアを救うため、みなさまにご協力よろしくお願いします。</p>
-            </div>
-            <h2>キャンペーン一覧</h2>
-            <div th:each="campaign : ${campaigns}">
-                <a th:href="'/campaign/'+${campaign.id}" th:text="${campaign.title}">title</a>
+                <br>
+                <h2>キャンペーン一覧</h2>
+                <div th:each="campaign : ${campaigns}">
+                    <a class="campaigns" th:href="'/campaign/'+${campaign.id}" th:text="${campaign.title}">title</a>
+                </div>
             </div>
         </div>
     </div>

@@ -1,1 +1,1 @@
-SELECT * FROM user WHERE WHERE user_id = /*userId*/1;
+SELECT * FROM user WHERE user_id = /*userId*/1;

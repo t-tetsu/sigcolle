@@ -28,14 +28,16 @@
                               th:action="@{~/login}">
                             <div class="field" th:classappend="${login.hasErrors('email')}?'error'">
                                 <input required type="email" maxlength='50' name="email" placeholder="メールアドレス" th:value="(${login.email}!=null)?${login.email}"/>
-                                <span style="color:red" th:if="${login.hasErrors('email')}" th:text="${login.getErrors('email')}"></span>
+                                <div class="ui pointing red basic label" th:if="${login.hasErrors('email')}" th:text="${login.getErrors('email').get(0)}"></div>
                             </div>
                             <div class="field" th:classappend="${login.hasErrors('pass')}?'error'">
                                 <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
-                                <span style="color:red" th:if="${login.hasErrors('pass')}" th:text="${login.getErrors('pass')}"></span>
+                                <div class="ui pointing red basic label" th:if="${login.hasErrors('pass')}" th:text="${login.getErrors('pass').get(0)}"></div>
                             </div>
                             <button class="ui fluid red button">ログイン</button>
                         </form>
+                        <br>
+                        <a href="/register" class="register">アカウントをお持ちでない方はこちら</a>
                     </div>
                 </div>
             </div>

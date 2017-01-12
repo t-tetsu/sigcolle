@@ -23,7 +23,7 @@
                 <div class="ui three column grid">
                     <div class="column"></div>
                     <div class="column">
-                        <h1 class="ui center aligned header">ユーザ登録</h1>
+                        <h1 class="ui center aligned header">新規登録</h1>
                         <form class="ui form" method="post" action="/register"
                               th:action="@{~/register}">
                             <div class="field">
@@ -34,13 +34,15 @@
                             </div>
                             <div class="field" th:classappend="${user.hasErrors('email')}?'error'">
                                 <input required type="email" maxlength='50' name="email" placeholder="メールアドレス" th:value="(${user.email}!=null)?${user.email}"/>
-                                <span style="color:red" th:if="${user.hasErrors('email')}" th:text="${user.getErrors('email')}"></span>
+                                <div class="ui pointing red basic label" th:if="${user.hasErrors('email')}" th:text="${user.getErrors('email').get(0)}"></div>
                             </div>
                             <div class="field">
                                 <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
                             </div>
                             <button class="ui fluid red button">登録</button>
                         </form>
+                        <br>
+                        <a href="/login" class="register">アカウントをお持ちの方はこちら</a>
                     </div>
                 </div>
             </div>
