@@ -10,7 +10,7 @@
 <body>
 <div class="pusher">
     <div class="ui fixed menu">
-        <div class="ui four column grid">
+        <div class="ui three column grid">
             <div class="column">
                 <div class="ui container two column grid">
                     <div class="column">
@@ -19,7 +19,10 @@
                 </div>
             </div>
             <div class="right floated column">
-                <div class="ui container two column grid" th:if="(${session} == null) or (${session.name} == null)">
+                <div class="ui container three column grid" th:if="(${session} == null) or (${session.name} == null)">
+                    <div class="column">
+                        <a href="/createCampaign" class="header item">キャンペーン開始</a>
+                    </div>
                     <div class="column">
                         <a href="/login" class="header item">ログイン</a>
                     </div>
@@ -27,9 +30,12 @@
                         <a href="/register" class="header item">ユーザ登録</a>
                     </div>
                 </div>
-                <div class="ui container two column grid" th:unless="((${session} == null) or (${session.name} == null)) ">
+                <div class="ui container three column grid" th:unless="((${session} == null) or (${session.name} == null)) ">
                     <div class="column">
                         <p class="header item"><span th:text="${session.name}">name</span>　さん</p>
+                    </div>
+                    <div class="column">
+                        <a href="/createCampaign" class="header item">キャンペーン開始</a>
                     </div>
                     <div class="column">
                         <a href="/logout" class="header item">ログアウト</a>

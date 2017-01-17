@@ -8,10 +8,12 @@ import enkan.data.Session;
 import kotowari.component.TemplateEngine;
 import net.unit8.sigcolle.dao.CampaignDao;
 import net.unit8.sigcolle.dao.SignatureDao;
+import net.unit8.sigcolle.dao.UserDao;
 import net.unit8.sigcolle.form.CampaignForm;
 import net.unit8.sigcolle.form.SignatureForm;
 import net.unit8.sigcolle.model.Campaign;
 import net.unit8.sigcolle.model.Signature;
+import net.unit8.sigcolle.model.User;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -36,6 +38,10 @@ public class CampaignController {
         CampaignDao campaignDao = domaProvider.getDao(CampaignDao.class);
         Campaign campaign = campaignDao.selectById(campaignId);
 
+        UserDao userDao = domaProvider.getDao(UserDao.class);
+        User user = userDao.selectByUserId(campaign.getCreatedBy());
+        String createdBy = user.getLastName() + user.getFirstName();
+
         SignatureDao signatureDao = domaProvider.getDao(SignatureDao.class);
         int signatureCount = signatureDao.countByCampaignId(campaignId);
 
@@ -43,7 +49,8 @@ public class CampaignController {
                 "campaign", campaign,
                 "signatureCount", signatureCount,
                 "signature", signature,
-                "message", message
+                "message", message,
+                "createdBy", createdBy
         );
     }
 
