@@ -36,7 +36,7 @@ public class V4__InsertCampaign implements JdbcMigration {
             stmt.setString(2, "開発に必要なサイトはプロキシでのブロックをやめたい！");
             stmt.setString(3, processor.markdownToHtml(statement));
             stmt.setLong(4, 1000L);
-            stmt.setString(5, "kawasima");
+            stmt.setLong(5, 0L);
             stmt.executeUpdate();
             connection.commit();
         }

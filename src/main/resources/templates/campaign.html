@@ -43,7 +43,7 @@ xmlns:th="http://www.thymeleaf.org">
             <div class="ui information container">
                 <h1 class="ui center aligned header" th:text="${campaign.title}">Sign title</h1>
                 <div class="ui center aligned header">
-                    <a th:text="${campaign.createdBy}">Created by</a>
+                    <a th:text="${createdBy}">Created by</a>
                 </div>
                 <div class="ui positive message" th:if="${message != null}">
                     <div class="header" th:text="${message}">Thank you</div>
