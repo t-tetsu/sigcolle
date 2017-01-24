@@ -1,19 +1,21 @@
 package net.unit8.sigcolle.controller;
 
+import java.io.IOException;
+
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 import enkan.collection.Multimap;
 import enkan.component.doma2.DomaProvider;
 import enkan.data.HttpResponse;
 import enkan.data.Session;
 import kotowari.component.TemplateEngine;
+import net.unit8.sigcolle.auth.LoginPrincipal;
 import net.unit8.sigcolle.dao.UserDao;
 import net.unit8.sigcolle.form.CampaignForm;
 import net.unit8.sigcolle.form.LoginForm;
 import net.unit8.sigcolle.model.User;
 import org.seasar.doma.jdbc.NoResultException;
-
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import java.io.IOException;
 
 import static enkan.util.BeanBuilder.builder;
 import static enkan.util.HttpResponseUtils.RedirectStatusCode.SEE_OTHER;
@@ -72,24 +74,19 @@ public class LoginController {
         if (session == null) {
             session = new Session();
         }
-        String name = user.getLastName() + " " + user.getFirstName();
-        session.put("name", name);
+        session.put("name", user.getLastName() + " " + user.getFirstName());
         session.put("userId", user.getUserId());
+        session.put("principal", new LoginPrincipal());
 
         return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();
-
     }
 
     // ログアウト処理
     @Transactional
     public HttpResponse logout(Session session) throws IOException {
-
-        if (session != null) {
-            session.clear();
-        }
-
+        session.clear();
         return builder(redirect("/", SEE_OTHER))
                 .set(HttpResponse::setSession, session)
                 .build();

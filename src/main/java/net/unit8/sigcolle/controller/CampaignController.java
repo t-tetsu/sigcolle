@@ -1,10 +1,13 @@
 package net.unit8.sigcolle.controller;
 
-import enkan.collection.Parameters;
+import java.io.IOException;
+
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 import enkan.component.doma2.DomaProvider;
 import enkan.data.Flash;
 import enkan.data.HttpResponse;
-import enkan.data.Session;
 import kotowari.component.TemplateEngine;
 import net.unit8.sigcolle.dao.CampaignDao;
 import net.unit8.sigcolle.dao.SignatureDao;
@@ -14,10 +17,6 @@ import net.unit8.sigcolle.form.SignatureForm;
 import net.unit8.sigcolle.model.Campaign;
 import net.unit8.sigcolle.model.Signature;
 import net.unit8.sigcolle.model.User;
-
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import java.io.IOException;
 
 import static enkan.util.BeanBuilder.builder;
 import static enkan.util.HttpResponseUtils.RedirectStatusCode.SEE_OTHER;
@@ -82,5 +81,14 @@ public class CampaignController {
         return builder(redirect("/campaign/" + form.getCampaignId(), SEE_OTHER))
                 .set(HttpResponse::setFlash, new Flash("ご賛同ありがとうございました！"))
                 .build();
+    }
+
+    public HttpResponse createForm() {
+        return templateEngine.render("signature/new");
+    }
+
+    public HttpResponse create() {
+        // TODO: create campaign
+        return builder(redirect("/", SEE_OTHER)).build();
     }
 }
