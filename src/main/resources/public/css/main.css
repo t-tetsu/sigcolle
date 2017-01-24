@@ -8,9 +8,14 @@ body {
 .ui.main.container {
   padding-top: 80px;
 }
-.header.item {
+
+a.logo {
   font-family: 'Exo', sans-serif;
   color: #f33;
+}
+
+div.center.column {
+  max-width: 450px;
 }
 
 .statement {

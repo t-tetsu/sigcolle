@@ -1,4 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -11,37 +11,43 @@
 <div class="pusher">
     <div class="ui fixed menu">
         <div class="ui container">
-            <a href="/" class="header item">SIG COLLE</a>
+            <a href="/" class="header item logo">SIG COLLE</a>
+            <div class="right menu" th:if="(${session} == null) or (${session.name} == null)">
+                <a href="/login" class="header item">ログイン</a>
+                <a href="/register" class="header item">ユーザ登録</a>
+            </div>
+            <div class="right menu" th:unless="((${session} == null) or (${session.name} == null))">
+                <span class="header item"><span th:text="${session.name}">name</span>　さん</span>
+                <a href="/logout" class="header item">ログアウト</a>
+            </div>
         </div>
     </div>
 
     <div class="full height image">
         <div class="ui main container">
-            <div class="menu bar">
-            </div>
             <div class="ui information container">
-                <div class="ui three column grid">
-                    <div class="column"></div>
-                    <div class="column">
-                        <h1 class="ui center aligned header">新規登録</h1>
-                        <form class="ui form" method="post" action="/register"
-                              th:action="@{~/register}">
-                            <div class="field">
-                                <input required type="text" maxlength='20' name="lastName" placeholder="姓" th:value="(${user.lastName}!=null)?${user.lastName}"/>
-                            </div>
-                            <div class="field">
-                                <input required type="text" maxlength='20' name="firstName" placeholder="名" th:value="(${user.firstName}!=null)?${user.firstName}"/>
-                            </div>
-                            <div class="field" th:classappend="${user.hasErrors('email')}?'error'">
-                                <input required type="email" maxlength='50' name="email" placeholder="メールアドレス" th:value="(${user.email}!=null)?${user.email}"/>
-                                <div class="ui pointing red basic label" th:if="${user.hasErrors('email')}" th:text="${user.getErrors('email').get(0)}"></div>
-                            </div>
-                            <div class="field">
-                                <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
-                            </div>
-                            <button class="ui fluid red button">登録</button>
-                        </form>
-                        <br>
+                <div class="ui middle aligned center aligned grid">
+                    <div class="center column">
+                        <div class="ui segment">
+                            <h1 class="ui center aligned header">新規登録</h1>
+                            <form class="ui form" method="post" action="/register"
+                                  th:action="@{~/register}">
+                                <div class="field">
+                                    <input required type="text" maxlength='20' name="lastName" placeholder="姓" th:value="(${user.lastName}!=null)?${user.lastName}"/>
+                                </div>
+                                <div class="field">
+                                    <input required type="text" maxlength='20' name="firstName" placeholder="名" th:value="(${user.firstName}!=null)?${user.firstName}"/>
+                                </div>
+                                <div class="field" th:classappend="${user.hasErrors('email')}?'error'">
+                                    <input required type="email" maxlength='50' name="email" placeholder="メールアドレス" th:value="(${user.email}!=null)?${user.email}"/>
+                                    <div class="ui pointing red basic label" th:if="${user.hasErrors('email')}" th:text="${user.getErrors('email').get(0)}"></div>
+                                </div>
+                                <div class="field">
+                                    <input required type="password" minlength='4' maxlength='20' name="pass" placeholder="パスワード"/>
+                                </div>
+                                <button class="ui fluid red button">登録</button>
+                            </form>
+                        </div>
                         <a href="/login" class="register">アカウントをお持ちの方はこちら</a>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,31 +10,15 @@
 <body>
 <div class="pusher">
     <div class="ui fixed menu">
-        <div class="ui four column grid">
-            <div class="column">
-                <div class="ui container two column grid">
-                    <div class="column">
-                        <a href="/" class="header item">SIG COLLE</a>
-                    </div>
-                </div>
+        <div class="ui container">
+            <a href="/" class="header item logo">SIG COLLE</a>
+            <div class="right menu" th:if="(${session} == null) or (${session.name} == null)">
+                <a href="/login" class="header item">ログイン</a>
+                <a href="/register" class="header item">ユーザ登録</a>
             </div>
-            <div class="right floated column">
-                <div class="ui container two column grid" th:if="(${session} == null) or (${session.name} == null)">
-                    <div class="column">
-                        <a href="/login" class="header item">ログイン</a>
-                    </div>
-                    <div class="column">
-                        <a href="/register" class="header item">ユーザ登録</a>
-                    </div>
-                </div>
-                <div class="ui container two column grid" th:unless="((${session} == null) or (${session.name} == null)) ">
-                    <div class="column">
-                        <p class="header item"><span th:text="${session.name}">name</span>　さん</p>
-                    </div>
-                    <div class="column">
-                        <a href="/logout" class="header item">ログアウト</a>
-                    </div>
-                </div>
+            <div class="right menu" th:unless="((${session} == null) or (${session.name} == null))">
+                <span class="header item"><span th:text="${session.name}">name</span>　さん</span>
+                <a href="/logout" class="header item">ログアウト</a>
             </div>
         </div>
     </div>
@@ -44,8 +28,7 @@
             <div class="menu bar">
             </div>
             <div class="ui information container center aligned ">
-                <h1 style="font-size:40px" class="ui header">SIG COLLE</h1>
-                <br>
+                <h1 class="ui header">SIG COLLE</h1>
                 <h2>キャンペーン一覧</h2>
                 <div th:each="campaign : ${campaigns}">
                     <a class="campaigns" th:href="'/campaign/'+${campaign.id}" th:text="${campaign.title}">title</a>
