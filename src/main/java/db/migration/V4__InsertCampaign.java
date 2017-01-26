@@ -26,7 +26,7 @@ public class V4__InsertCampaign implements JdbcMigration {
 
     @Override
     public void migrate(Connection connection) throws Exception {
-        String sql = "INSERT INTO campaign(campaign_id, title, statement, goal, created_by) " +
+        String sql = "INSERT INTO campaign(campaign_id, title, statement, goal, create_user_id) " +
                 "VALUES(?,?,?,?,?)";
         PegDownProcessor processor = new PegDownProcessor(Extensions.ALL);
 

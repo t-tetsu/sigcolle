@@ -31,7 +31,7 @@
                 <h1 class="ui header">SIG COLLE</h1>
                 <h2>キャンペーン一覧</h2>
                 <div th:each="campaign : ${campaigns}">
-                    <a class="campaigns" th:href="'/campaign/'+${campaign.id}" th:text="${campaign.title}">title</a>
+                    <a class="campaigns" th:href="'/campaign/'+${campaign.campaignId}" th:text="${campaign.title}">title</a>
                 </div>
             </div>
         </div>

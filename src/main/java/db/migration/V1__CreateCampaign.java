@@ -17,7 +17,7 @@ public class V1__CreateCampaign implements JdbcMigration {
                     "title VARCHAR(30) NOT NULL," +
                     "statement CLOB NOT NULL," +
                     "goal INTEGER," +
-                    "created_by INTEGER NOT NULL" +
+                    "create_user_id INTEGER NOT NULL" +
                     ")"
             );
         }

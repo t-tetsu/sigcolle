@@ -38,7 +38,7 @@ public class CampaignController {
         Campaign campaign = campaignDao.selectById(campaignId);
 
         UserDao userDao = domaProvider.getDao(UserDao.class);
-        User user = userDao.selectByUserId(campaign.getCreatedBy());
+        User user = userDao.selectByUserId(campaign.getCreateUserId());
         String createdBy = user.getLastName() + user.getFirstName();
 
         SignatureDao signatureDao = domaProvider.getDao(SignatureDao.class);
